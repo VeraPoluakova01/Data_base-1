@@ -3,19 +3,22 @@ from logger import log
 
 
 @log
-def connect():
+def connect(): 
+    ''' подключение к базе данных'''
     conn = sqlite3.connect("db_wh_8.db")
     cursor = conn.cursor()
 
     return conn, cursor
 
 
-@log
+@log   
 def disconnect(conn):
+    '''отключение базы данных'''
     conn.close()
 
 
-def add_record(conn, cursor, data):
+def add_record(conn, cursor, data): 
+    ''' Добавление данных'''
     # Запись группы
     id_group = cursor.execute(
         "SELECT id FROM 'groups' WHERE group_name = ?", (data[3],)).fetchall()
@@ -73,6 +76,7 @@ def add_record(conn, cursor, data):
 
 @log
 def get_data(cursor):
+    ''' запрос данных от пользователя '''
     result = []
     request = cursor.execute("""SELECT students.id, surname,name,date_birth ,group_name,place_practice 
                         FROM students 
@@ -96,7 +100,8 @@ def get_data(cursor):
 
 
 @log
-def del_data(conn, cursor, id):
+def del_data(conn, cursor, id): 
+    ''' удаление данных по id '''
     cursor.execute(
         "DELETE FROM telephone_book WHERE id_student = ?",
         (
@@ -112,7 +117,8 @@ def del_data(conn, cursor, id):
 
 
 @log
-def get_data_id(cursor, id):
+def get_data_id(cursor, id): 
+    ''' получение данных по id '''
     result = []
     request = cursor.execute("""SELECT students.id, surname,name,date_birth ,group_name,place_practice 
                         FROM students 
@@ -136,7 +142,9 @@ def get_data_id(cursor, id):
 
 
 @log
-def edit_data(conn, cursor, id, data):
+def edit_data(conn, cursor, id, data): 
+    ''' редактирование данных по id '''
+    
     # Запись группы
     id_group = cursor.execute(
         "SELECT id FROM 'groups' WHERE group_name = ?", (data[3],)).fetchall()
